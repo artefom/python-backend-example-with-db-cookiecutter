@@ -1,0 +1,25 @@
+version: '3.5'
+services:
+
+  app:
+    image: local/distribusion/{{cookiecutter.__project_kebab}}:latest
+    build:
+      context: .
+      # New versions of docker use network "bridge"
+      # This network does not have connection to ourside world
+      # Manually specify host network here
+      # to enable dockers communication with outside world
+      network: host
+      dockerfile: .deploy/docker/Dockerfile
+      args:
+        # Set GITLAB_REGISTRY_USERNAME and GITLAB_REGISTRY_PASSWORD in your env
+        # They are passed as args to the container build
+        GITLAB_REGISTRY_USERNAME: $GITLAB_REGISTRY_USERNAME
+        GITLAB_REGISTRY_PASSWORD: $GITLAB_REGISTRY_PASSWORD
+    ports:
+      # DOCKER_COMPOSE_EXTERNAL_PORT can be specified in .env file
+      - ${DOCKER_COMPOSE_EXTERNAL_PORT-8000}:8000
+    volumes:
+      - ./:/app
+    env_file: # Can be replaced with environment: ...
+      - .env.example

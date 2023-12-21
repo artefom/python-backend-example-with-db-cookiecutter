@@ -1,0 +1,7 @@
+.git/
+.venv/
+**/node_modules/
+**/build/
+.build/
+__pycache__
+db.sqlite

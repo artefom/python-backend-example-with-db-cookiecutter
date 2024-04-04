@@ -18,13 +18,22 @@ def get_tortoise_orm_settings(db_url: str) -> dict[str, Any]:
     Application-wide database connection settings
     used in generating/applying migrations, running server and in tests
     """
+
     return {
+        # We can have more than one connection
+        # for example, for read-replica or for sharded database
         "connections": {"default": db_url},
         "apps": {
-            "models": {
-                "models": ["{{cookiecutter.__project_slug}}.models", "aerich.models"],
-                "default_connection": "default",
+            "aerich": {  # The models from aerich app that store migration history
+                "models": ["aerich.models"],
             },
+            "{{cookiecutter.__project_slug}}": {  # Our current application
+                # This points to locations of all python modules
+                # that have databsase models in them
+                "models": ["mapping_test.models"],
+            },
+            # Add more apps/libraries here as required
+            # for example, for managing background tasks
         },
     }
 

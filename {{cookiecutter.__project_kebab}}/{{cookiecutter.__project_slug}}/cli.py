@@ -71,7 +71,7 @@ def with_aerich(func: Callable[[Any], Awaitable[None]], *args: Any, **kwargs: An
         # This thing initializes tortoise database for us
         AERICH_APP = Command(
             tortoise_config=get_tortoise_orm_settings(db_url),
-            app="models",
+            app="{{cookiecutter.__project_slug}}",
             location=os.path.join(STATE["db_migrations_location"], db_engine),
         )
         await AERICH_APP.init()

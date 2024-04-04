@@ -9,9 +9,7 @@ echo "Initializing database"
 echo "Upgrading database"
 {{cookiecutter.__project_kebab}} --verbose db-upgrade
 
-# Start single uvicorn worker
-# NOTE: Sigterm might not be propagated propelry, use
-# CMD python {{cookiecutter.__project_slug}}/main.py
-# If graceful termination is needed
+echo "Starting service"
 
-{{cookiecutter.__project_kebab}} run --host 0.0.0.0 --port 8000
+# Start using 'exec' so SEGTERM and other signals are propagated
+exec {{cookiecutter.__project_kebab}} run --host 0.0.0.0 --port 8000

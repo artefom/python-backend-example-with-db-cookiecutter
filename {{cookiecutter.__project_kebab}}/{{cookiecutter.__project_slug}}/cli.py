@@ -89,7 +89,7 @@ def with_aerich(func: Callable[[Any], Awaitable[None]], *args: Any, **kwargs: An
 def run(
     host: str = "127.0.0.1",
     port: int = 8000,
-    root_path: str = typer.Option("/", envvar="API_ROOT_PATH"),
+    root_path: str = typer.Option("", envvar="API_ROOT_PATH"),
 ) -> None:
     """
     Run server

@@ -20,6 +20,7 @@ RUN POETRY_VIRTUALENVS_CREATE=false poetry install --no-root
 
 # Copy package source code
 COPY ./{{cookiecutter.__project_slug}} ./{{cookiecutter.__project_slug}}
+COPY ./migrations ./migrations
 
 # Install package
 RUN pip install --no-deps .

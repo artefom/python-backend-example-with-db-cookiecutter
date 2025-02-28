@@ -3,11 +3,8 @@
 # Exit on first error
 set -e
 
-echo "Initializing database"
-{{cookiecutter.__project_kebab}} --verbose db-init
-
-echo "Upgrading database"
-{{cookiecutter.__project_kebab}} --verbose db-upgrade
+echo "Upgrading database by alembic"
+alembic upgrade head
 
 echo "Starting service"
 

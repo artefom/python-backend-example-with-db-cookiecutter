@@ -1,11 +1,11 @@
-FROM python:3.12-slim-bullseye
+FROM python:3.13-slim-bullseye
 
 WORKDIR /app
 
 # postgresql driver build deps
 RUN apt update && apt install -y build-essential libpq-dev python3-dev gcc
 
-RUN pip install --no-input "poetry==1.7.1"
+RUN pip install --no-input "poetry>=2.0.0,<3.0.0"
 
 # Install packages in a cache-friendly way
 COPY poetry.lock ./
@@ -20,7 +20,8 @@ RUN POETRY_VIRTUALENVS_CREATE=false poetry install --no-root
 
 # Copy package source code
 COPY ./{{cookiecutter.__project_slug}} ./{{cookiecutter.__project_slug}}
-COPY ./migrations ./migrations
+COPY ./alembic ./alembic
+COPY ./alembic.ini ./alembic.ini
 
 # Install package
 RUN pip install --no-deps .

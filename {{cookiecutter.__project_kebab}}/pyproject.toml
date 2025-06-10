@@ -51,7 +51,7 @@ pylint = "^3.3.1"
 
 [[tool.poetry.source]]
 name = "distribusion"
-url = "https://gitlab.com/api/v4/groups/15793688/-/packages/pypi/simple"
+url = "https://gitlab.com/api/v4/groups/15793598/-/packages/pypi/simple"
 priority = "primary"
 
 

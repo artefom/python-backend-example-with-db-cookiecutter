@@ -17,7 +17,10 @@ async def test_new_post(api_client: AsyncClient) -> None:
         "/posts", json={"title": "Test", "main_content": "This is a test post"}
     )
     assert response.status_code == 200
-    assert response.json()["title"] == "Test"
+    data = response.json()
+    assert data["title"] == "Test"
+    assert data["created_at"] is not None
+    assert data["updated_at"] is not None
 
 
 @pytest.mark.asyncio
@@ -36,9 +39,11 @@ async def test_view_post(api_client: AsyncClient) -> None:
     post_id = res.json()["id"]
     response = await api_client.get(f"/posts/{post_id}")
     assert response.status_code == 200
-    assert response.json()["id"] == post_id
-    assert response.json()["title"] == "Test"
-    assert response.json()["main_content"] == "This is a test post"
+    data = response.json()
+    assert data["id"] == post_id
+    assert data["title"] == "Test"
+    assert data["main_content"] == "This is a test post"
+    assert data["created_at"] == res.json()["created_at"]
 
 
 @pytest.mark.asyncio

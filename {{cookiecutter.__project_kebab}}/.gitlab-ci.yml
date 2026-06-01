@@ -1,6 +1,6 @@
 include:
   - project: 'distribusion/common/gitlab-ci'
-    file: 'python-service-pre-commit.yaml'
+    file: 'python-service-pre-commit-with-demo-and-pg.yaml'
     ref: master
 
 variables:
@@ -8,3 +8,4 @@ variables:
   PROD_URL: http://svc.prod.internal.distribusion.com/{{cookiecutter.__project_kebab}}/docs
   DT_PROJECT_TEAM: {{cookiecutter.team_name}}
   USE_PROJECT_NAME_AS_NAMESPACE: false
+  POSTGRES_VERSION: "18"  # Should match the version in conftest.py and GCP instance

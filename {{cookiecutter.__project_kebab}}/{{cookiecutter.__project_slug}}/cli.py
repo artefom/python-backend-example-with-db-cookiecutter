@@ -39,15 +39,12 @@ app = typer.Typer(
 )
 
 
-DEFAULT_DB_URL = "sqlite+aiosqlite:///db.sqlite"
-
-
 @app.command()
 def run(
     host: str = "127.0.0.1",
     port: int = 8000,
     root_path: str = typer.Option("", envvar="API_ROOT_PATH"),
-    db_url: str = typer.Option(DEFAULT_DB_URL, envvar="DB_URL"),
+    db_url: str = typer.Option(..., envvar="DB_URL"),
     debug: bool = typer.Option(False, envvar="DEBUG"),
 ) -> None:
     """

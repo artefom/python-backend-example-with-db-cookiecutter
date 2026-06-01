@@ -7,18 +7,28 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
+from {{cookiecutter.__project_slug}}.storage.db_utils import normalize_db_url
 
-DEFAULT_DB_URL = "sqlite+aiosqlite:///db.sqlite"
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-config.set_section_option(
-    config.config_ini_section, "DB_URL", os.environ.get("DB_URL", DEFAULT_DB_URL)
+
+_raw_url = config.get_main_option("sqlalchemy.url") or os.environ.get("DB_URL")
+if not _raw_url:
+    raise RuntimeError("DB_URL environment variable must be set to run migrations")
+
+config.set_main_option(
+    "sqlalchemy.url",
+    normalize_db_url(_raw_url).render_as_string(hide_password=False),
 )
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
-if config.config_file_name is not None:
+if (
+    config.config_file_name is not None
+    # This is used in tests.
+    and config.get_main_option("{{cookiecutter.__project_slug}}.skip_logging_setup") != "true"
+):
     fileConfig(config.config_file_name)
 
 # add your model's MetaData object here
@@ -86,8 +96,13 @@ async def run_async_migrations() -> None:
 
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode."""
-
-    asyncio.run(run_async_migrations())
+    # We're explicitly creating a new loop here, instead of calling
+    # asyncio.run, to make it work properly inside tests.
+    loop = asyncio.new_event_loop()
+    try:
+        loop.run_until_complete(run_async_migrations())
+    finally:
+        loop.close()
 
 
 if context.is_offline_mode():

@@ -9,9 +9,8 @@ import pytest
 from starlette.requests import Request
 from starlette.responses import Response
 
-from {{cookiecutter.__project_slug}}.conftest import JsonLogs
-
 from .slog import logging_context
+from .testing_utils.log import JsonLogs
 from .tracking import RequestView, ResponseView, TrackingMiddleware
 
 logger = logging.getLogger(__name__)

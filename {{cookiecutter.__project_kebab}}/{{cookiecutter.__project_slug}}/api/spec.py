@@ -10,6 +10,7 @@ import enum
 import inspect
 import logging
 from contextlib import contextmanager
+from datetime import datetime
 from functools import wraps
 from typing import (
     Any,
@@ -59,6 +60,8 @@ class PostResponse(BaseModel):
     id: int
     title: str
     main_content: str
+    created_at: datetime
+    updated_at: datetime
 
 
 class PostsListResponse(BaseModel):

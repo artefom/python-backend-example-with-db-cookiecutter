@@ -12,6 +12,9 @@ async def test_create_record(db_connection_pool: ConnectionPool):
         title="First Post", main_content="This is the first post"
     )
     assert new_post.id is not None
+    assert new_post.created_at.tzinfo is not None
+    assert new_post.updated_at.tzinfo is not None
+    assert new_post.updated_at >= new_post.created_at
 
 
 @pytest.mark.asyncio
@@ -23,6 +26,7 @@ async def test_view_record(db_connection_pool: ConnectionPool):
     post = await post_repo.view_post(new_post.id)
     assert post is not None
     assert post.title == "First Post"
+    assert post.created_at == new_post.created_at
 
 
 @pytest.mark.asyncio
@@ -36,6 +40,7 @@ async def test_update_record(db_connection_pool: ConnectionPool):
     )
     assert updated_post is not None
     assert updated_post.title == "Updated Post"
+    assert updated_post.updated_at >= new_post.created_at
 
 
 @pytest.mark.asyncio
@@ -59,6 +64,8 @@ async def test_create_comment(db_connection_pool: ConnectionPool):
         post_id=new_post.id, content="This is a comment"
     )
     assert new_comment.id is not None
+    assert new_comment.created_at.tzinfo is not None
+    assert new_comment.updated_at >= new_comment.created_at
 
 
 @pytest.mark.asyncio

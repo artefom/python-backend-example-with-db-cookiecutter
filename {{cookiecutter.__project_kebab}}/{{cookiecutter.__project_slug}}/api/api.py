@@ -28,7 +28,11 @@ class DefaultApi(spec.Api):
     async def new_post(self, post: spec.PostPayload) -> spec.PostResponse:
         new_post = await self.post_repo.create_post(post.title, post.main_content)
         return spec.PostResponse(
-            id=new_post.id, title=new_post.title, main_content=new_post.main_content
+            id=new_post.id,
+            title=new_post.title,
+            main_content=new_post.main_content,
+            created_at=new_post.created_at,
+            updated_at=new_post.updated_at,
         )
 
     async def view_posts(self) -> spec.PostsListResponse:
@@ -36,7 +40,11 @@ class DefaultApi(spec.Api):
         return spec.PostsListResponse(
             data=[
                 spec.PostResponse(
-                    id=post.id, title=post.title, main_content=post.main_content
+                    id=post.id,
+                    title=post.title,
+                    main_content=post.main_content,
+                    created_at=post.created_at,
+                    updated_at=post.updated_at,
                 )
                 for post in posts
             ]
@@ -47,7 +55,11 @@ class DefaultApi(spec.Api):
         if post is None:
             raise spec.PostNotFoundError(post_id)
         return spec.PostResponse(
-            id=post.id, title=post.title, main_content=post.main_content
+            id=post.id,
+            title=post.title,
+            main_content=post.main_content,
+            created_at=post.created_at,
+            updated_at=post.updated_at,
         )
 
     async def update_post(
@@ -62,6 +74,8 @@ class DefaultApi(spec.Api):
             id=updated_post.id,
             title=updated_post.title,
             main_content=updated_post.main_content,
+            created_at=updated_post.created_at,
+            updated_at=updated_post.updated_at,
         )
 
     async def delete_post(self, post_id: int) -> None:

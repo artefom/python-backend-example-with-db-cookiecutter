@@ -9,9 +9,8 @@ from unittest.mock import ANY
 
 import pytest
 
-from {{cookiecutter.__project_slug}}.conftest import JsonLogs
-
 from .slog import logging_context
+from .testing_utils.log import JsonLogs
 
 logger = logging.getLogger("test_logger")
 

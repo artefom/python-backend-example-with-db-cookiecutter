@@ -87,7 +87,12 @@ async def run_server(settings: AppSettings):
         application_context = ApplicationContext.create_with_settings(pool, settings)
         app = make_app(application_context)
         config = uvicorn.Config(
-            app, settings.host, settings.port, log_config=None, access_log=False
+            app,
+            host=settings.host,
+            port=settings.port,
+            log_config=None,
+            access_log=False,
+            timeout_graceful_shutdown=settings.timeout_graceful_shutdown,
         )
         api_server = uvicorn.Server(config)
         logging.info("Serving on http://%s:%s", settings.host, settings.port)

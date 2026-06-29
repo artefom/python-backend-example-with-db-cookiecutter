@@ -1,6 +1,7 @@
 """
 This module is used to store the global services that are used in the application
 """
+
 from dataclasses import dataclass
 
 from {{cookiecutter.__project_slug}}.storage.connection_pool import ConnectionPool
@@ -14,6 +15,7 @@ class AppSettings:
     port: int
     root_path: str
     debug: bool = False
+    timeout_graceful_shutdown: int | None = 30
 
 
 @dataclass

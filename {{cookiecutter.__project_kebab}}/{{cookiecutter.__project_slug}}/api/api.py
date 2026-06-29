@@ -1,6 +1,7 @@
 """
 API implementation
 """
+
 import logging
 
 from fastapi import APIRouter

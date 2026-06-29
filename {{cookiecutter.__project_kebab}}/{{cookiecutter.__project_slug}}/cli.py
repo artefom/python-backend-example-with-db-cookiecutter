@@ -8,8 +8,6 @@ It keeps all imports inside the functions
 to allow for fast --help calls
 """
 
-# pylint: disable=import-outside-toplevel
-
 import asyncio
 import logging
 import logging.config

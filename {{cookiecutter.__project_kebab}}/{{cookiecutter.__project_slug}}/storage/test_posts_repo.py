@@ -1,4 +1,3 @@
-# pylint: disable=missing-module-docstring
 import pytest
 
 from {{cookiecutter.__project_slug}}.storage.connection_pool import ConnectionPool

@@ -1,6 +1,7 @@
 """
 This is example module for the PostRepo class.
 """
+
 from sqlalchemy.future import select
 
 from {{cookiecutter.__project_slug}}.storage.connection_pool import ConnectionPool

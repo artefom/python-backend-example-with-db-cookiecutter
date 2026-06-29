@@ -1,6 +1,7 @@
 """
 tests for structured logging module (slog.py)
 """
+
 import asyncio
 import logging
 import time
@@ -125,7 +126,7 @@ async def test_structured_info_context(structured_logs_capture: JsonLogs):
                 "logger": "test_logger",
                 "parent": "foo",
                 "task_name": "task2",
-                "a": 30,
+                "a": "30",
             },
         },
         {
@@ -136,7 +137,7 @@ async def test_structured_info_context(structured_logs_capture: JsonLogs):
                 "logger": "test_logger",
                 "parent": "foo",
                 "task_name": "task1",
-                "a": 20,
+                "a": "20",
             },
         },
         {
@@ -146,8 +147,8 @@ async def test_structured_info_context(structured_logs_capture: JsonLogs):
             "logging.googleapis.com/labels": {
                 "logger": "test_logger",
                 "parent": "foo",
-                "a": 0,
-                "b": 5,
+                "a": "0",
+                "b": "5",
             },
         },
     ]

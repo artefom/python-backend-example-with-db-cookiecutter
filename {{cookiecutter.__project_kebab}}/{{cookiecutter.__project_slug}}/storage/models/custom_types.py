@@ -8,7 +8,6 @@ import sqlalchemy as sa
 from sqlalchemy import Dialect
 
 
-# pylint: disable=abstract-method, too-many-ancestors
 class DatetimeWithTimezone(sa.TypeDecorator):
     """
     Ensures datetime objects are always stored in UTC and returned with UTC timezone.
@@ -23,8 +22,7 @@ class DatetimeWithTimezone(sa.TypeDecorator):
     ) -> datetime | None:
         if value is not None:
             # isinstance(datetime.now(), date) is True, so we have to check the type.
-            # pylint: disable=unidiomatic-typecheck
-            if type(value) == date:
+            if type(value) == date:  # noqa: E721
                 value = datetime(
                     value.year, value.month, value.day, tzinfo=timezone.utc
                 )

@@ -72,9 +72,7 @@ def pytest_sessionstart(session: pytest.Session) -> None:
             os.environ["TEST_DB_URL"] = db_url
 
 
-def pytest_sessionfinish(  # pylint: disable=unused-argument
-    session: pytest.Session, exitstatus: int
-) -> None:
+def pytest_sessionfinish(session: pytest.Session, exitstatus: int) -> None:
     """Stop the shared xdist PG container after all workers finish."""
     container = getattr(session.config, "pg_container", None)
     if container is not None:
@@ -117,9 +115,9 @@ def base_test_db_url() -> Generator[str, None, None]:
     if db_url := os.environ.get("TEST_DB_URL"):
         parsed = normalize_db_url(db_url)
         db_name = parsed.database
-        assert (
-            db_name and "test" in db_name
-        ), "Refusing to operate on a database whose name does not contain 'test'"
+        assert db_name and "test" in db_name, (
+            "Refusing to operate on a database whose name does not contain 'test'"
+        )
         yield parsed.render_as_string(hide_password=False)
         return
 
@@ -128,7 +126,7 @@ def base_test_db_url() -> Generator[str, None, None]:
 
 
 @pytest_asyncio.fixture(scope="session", loop_scope="session")
-async def template_db_name(  # pylint: disable=redefined-outer-name
+async def template_db_name(
     base_test_db_url: str,
 ) -> AsyncGenerator[str, None]:
     name = await setup_template_database(base_test_db_url)
@@ -137,7 +135,7 @@ async def template_db_name(  # pylint: disable=redefined-outer-name
 
 
 @pytest_asyncio.fixture
-async def db_connection_pool(  # pylint: disable=redefined-outer-name
+async def db_connection_pool(
     base_test_db_url: str,
     template_db_name: str,
 ) -> AsyncGenerator[ConnectionPool, None]:
@@ -145,6 +143,7 @@ async def db_connection_pool(  # pylint: disable=redefined-outer-name
         base_test_db_url, template_db_name
     )
     test_db_name = sa.make_url(test_db_url).database
+    assert test_db_name is not None
     try:
         async with ConnectionPool(test_db_url) as pool:
             yield pool
@@ -155,14 +154,14 @@ async def db_connection_pool(  # pylint: disable=redefined-outer-name
 @pytest_asyncio.fixture
 async def db_session(
     db_connection_pool: ConnectionPool,
-):  # pylint: disable=redefined-outer-name
+):
     async with db_connection_pool.new_session() as session:
         yield session
 
 
 @pytest_asyncio.fixture
 async def api_client(
-    db_connection_pool: ConnectionPool,  # pylint: disable=redefined-outer-name
+    db_connection_pool: ConnectionPool,
 ) -> AsyncGenerator[httpx.AsyncClient, None]:
     """Client fixture for testing the application APIs"""
     test_db_url = db_connection_pool.engine.url.render_as_string(hide_password=False)

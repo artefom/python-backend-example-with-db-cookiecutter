@@ -1,5 +1,3 @@
-# pylint: disable=missing-module-docstring
-
 import pytest
 from httpx import AsyncClient
 

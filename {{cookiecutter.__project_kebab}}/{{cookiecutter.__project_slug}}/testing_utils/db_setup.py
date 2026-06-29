@@ -4,6 +4,7 @@ Performance strategy: PostgreSQL template databases.
 - Per-test: CREATE DATABASE ... TEMPLATE ... (fast file-level copy), DROP after
 - pytest-xdist: each worker gets its own template DB (no cross-worker coordination)
 """
+
 import asyncio
 import os
 import uuid

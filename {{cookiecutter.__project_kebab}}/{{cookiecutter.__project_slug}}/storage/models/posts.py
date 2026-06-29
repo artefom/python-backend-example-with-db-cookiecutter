@@ -1,6 +1,7 @@
 """
 Example Post and Comment models.
 """
+
 from datetime import datetime
 from typing import List
 

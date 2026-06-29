@@ -18,6 +18,13 @@ app:
 replicaCount: 1
 updateStrategy:
   type: "RollingUpdate"
+  rollingUpdate:
+    maxSurge: 25%
+    maxUnavailable: 25%
+
+# Graceful shutdown timeout in seconds
+# Should be >= uvicorn timeout_graceful_shutdown (default 30s)
+terminationGracePeriodSeconds: 60
 
 image:
   registry: europe-docker.pkg.dev

@@ -35,7 +35,7 @@ if (
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from {{cookiecutter.__project_slug}}.storage.models import Base
+from {{cookiecutter.__project_slug}}.storage.models import Base  # noqa: E402
 
 target_metadata = Base.metadata
 
